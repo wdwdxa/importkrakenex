@@ -1,0 +1,25 @@
+import krakenex
+
+# 初始化API
+client = krakenex.API(api_key, api_secret)
+
+# 获取市场深度
+depth = client.query_public('Depth', {'pair': 'XXBTZUSD', 'count': 10})
+
+# 获取账户余额
+balance = client.query_private('Balance')
+
+# 下单
+order = client.query_private('AddOrder', {
+    'pair': 'XXBTZUSD',
+    'type': 'buy',
+    'ordertype': 'limit',
+    'price': 50000,
+    'volume': 1
+})
+
+# 撤单
+client.query_private('CancelOrder', {'txid': order['result']['txid']})
+
+# 获取交易历史
+trades = client.query_private('TradesHistory')
